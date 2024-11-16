@@ -1,5 +1,5 @@
 # DatabaseAssignment
-Overview
+# Overview
 This project demonstrates the process of normalizing an unstructured dataset into First Normal Form (1NF), Second Normal Form (2NF), and finally Third Normal Form (3NF). The goal is to reduce redundancy, eliminate anomalies, and improve database efficiency and integrity. Each normalization step involves restructuring the data into separate, logically connected tables.
 
 Steps of Normalization
