@@ -1,5 +1,15 @@
 
 DROP TABLE IF EXISTS normalized_data;
+DROP TABLE IF EXISTS book_authors_nf2;
+DROP TABLE IF EXISTS book_publisher_nf3;
+DROP TABLE IF EXISTS course_books_nf2;
+DROP TABLE IF EXISTS nf2_authors;
+DROP TABLE IF EXISTS nf2_books;
+DROP TABLE IF EXISTS nf2_courses;
+DROP TABLE IF EXISTS nf3_books;
+DROP TABLE IF EXISTS nf3_publisher;
+DROP TABLE IF EXISTS unnormalized_data;
+
 
 CREATE TABLE normalized_data (
     CRN INT,
@@ -13,8 +23,7 @@ CREATE TABLE normalized_data (
     Year INT,
     Course_name VARCHAR(255)
 );
---I wrote this in Command Prompt
---\COPY unnormalized_data FROM 'C:\Users\User\OneDrive\Documents\Unnormalized1.csv' DELIMITER ',' CSV HEADER;
+
 
 --1NF
 
@@ -135,8 +144,6 @@ SELECT DISTINCT
     p.publisher_id
 FROM NF2_Books b
 JOIN NF3_Publisher p ON b.publisher = p.publisher_name;
-
-
 
 
  
