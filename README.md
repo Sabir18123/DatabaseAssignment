@@ -60,3 +60,5 @@ This project demonstrates the process of normalizing an unstructured dataset int
 - **Scalability**: A properly normalized database is easier to maintain and scale.
 
 ---
+## **Conclusion**
+Normalization ensures data consistency, eliminates redundancy, and improves database efficiency. By transforming the dataset into **Third Normal Form (3NF)**, we achieved a structured design that supports accurate, scalable, and efficient queries. This project highlights the importance of normalization in maintaining a clean and maintainable database.
