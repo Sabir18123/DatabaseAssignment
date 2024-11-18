@@ -1,5 +1,4 @@
-
-DROP TABLE IF EXISTS normalized_data;
+DROP TABLE IF EXISTS nf1_data;
 DROP TABLE IF EXISTS book_authors_nf2;
 DROP TABLE IF EXISTS book_publisher_nf3;
 DROP TABLE IF EXISTS course_books_nf2;
@@ -11,7 +10,7 @@ DROP TABLE IF EXISTS nf3_publisher;
 DROP TABLE IF EXISTS unnormalized_data;
 
 
-CREATE TABLE normalized_data (
+CREATE TABLE unnormalized_data (
     CRN INT,
     ISBN VARCHAR(20),
     Title VARCHAR(255),
@@ -30,12 +29,25 @@ CREATE TABLE normalized_data (
 --1NF
 
 
-INSERT INTO normalized_data (CRN, ISBN, Title, Author, Edition, Publisher, Publisher_address, Pages, Year, Course_name)
+CREATE TABLE NF1_data (
+    CRN INT,
+    ISBN VARCHAR(20),
+    Title VARCHAR(255),
+    Author VARCHAR(255),
+    Edition INT,
+    Publisher VARCHAR(255),
+    Publisher_address TEXT,
+    Pages INT,
+    Year INT,
+    Course_name VARCHAR(255)
+);
+
+INSERT INTO NF1_data (CRN, ISBN, Title, Author, Edition, Publisher, Publisher_address, Pages, Year, Course_name)
 SELECT
     CRN,
     ISBN,
     Title,
-    TRIM(unnest(string_to_array(Authors, ','))) AS Author,
+    TRIM(unnest(string_to_array(Author, ','))) AS Author,
     Edition,
     Publisher,
     Publisher_address,
@@ -55,7 +67,7 @@ CREATE TABLE NF2_Courses (
 
 INSERT INTO NF2_Courses (CRN, course_name)
 SELECT DISTINCT CRN, course_name
-FROM normalized_data;
+FROM NF1_data;
 
 CREATE TABLE NF2_Books (
     ISBN VARCHAR(13) PRIMARY KEY,
@@ -69,7 +81,7 @@ CREATE TABLE NF2_Books (
 
 INSERT INTO NF2_Books (ISBN, Title, Edition, Publisher, Publisher_address, Pages, Year)
 SELECT DISTINCT ISBN, Title, Edition, Publisher, Publisher_address, Pages, Year
-FROM normalized_data;
+FROM NF1_data;
 
 CREATE TABLE NF2_Authors (
     AuthorID SERIAL PRIMARY KEY,
@@ -78,7 +90,7 @@ CREATE TABLE NF2_Authors (
 
 INSERT INTO NF2_Authors (Author_Name)
 SELECT DISTINCT Author
-FROM normalized_data;
+FROM NF1_data;
 
 CREATE TABLE Book_Authors_NF2 (
     ISBN VARCHAR(13),
@@ -91,7 +103,7 @@ INSERT INTO Book_Authors_NF2 (ISBN, AuthorID)
 SELECT DISTINCT
     f.ISBN,
     a.AuthorID
-FROM normalized_data f
+FROM NF1_data f
 JOIN NF2_Authors a ON f.Author = a.Author_Name;
 
 CREATE TABLE Course_Books_NF2 (
@@ -105,7 +117,7 @@ INSERT INTO Course_Books_NF2 (ISBN, CRN)
 SELECT DISTINCT
     f.ISBN,
     c.CRN
-FROM normalized_data f
+FROM NF1_data f
 JOIN NF2_Courses c ON f.course_name = c.course_name;
 
 --3NF
@@ -146,9 +158,3 @@ SELECT DISTINCT
     p.publisher_id
 FROM NF2_Books b
 JOIN NF3_Publisher p ON b.publisher = p.publisher_name;
-
-
- 
-
-
-
