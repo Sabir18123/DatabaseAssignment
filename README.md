@@ -1,6 +1,5 @@
-Here’s an improved and well-formatted version of your README:
 
----
+
 
 # **Database Assignment**
 
