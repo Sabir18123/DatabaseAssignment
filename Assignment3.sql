@@ -24,6 +24,8 @@ CREATE TABLE normalized_data (
     Course_name VARCHAR(255)
 );
 
+--I wrote this in Command Prompt
+--\COPY unnormalized_data FROM 'C:\Users\User\OneDrive\Documents\Unnormalized1.csv' DELIMITER ',' CSV HEADER;
 
 --1NF
 
